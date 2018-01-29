@@ -1,0 +1,226 @@
+# R code for Carditocography D3
+
+data <- read.csv("C:/Users/I00056/Downloads/CTG_new (2).csv")
+# read csv file
+data # show file
+
+library("corrgram") # import and install corrgram library
+v <- data[c(10:32)]
+corrgram(v) # to find out collinearity amongst predictors
+
+data_frame <- data.frame(data$LB, data$AC.1, data$FM.1, data$UC.1, data$ASTV, data$Min, data$Max, data$Nmax, data$Nzeros, data$NSP) # predictors selection and dataframe creation
+data_frame
+
+colnames(data_frame) <- c("BeatsRate", "AccelerationNo", "FetalMovements", "UterinContractions", "AbnormalShortTermVariability", "HistogramMin", "HistogramMax", "HistogramPeaks", "HistogramZeros", "FetalState")
+#Renaming the columns of dataframe
+
+str(data_frame) # to identify the structure of columns
+
+data_frame #printing data with new column names
+
+data_frame$FetalState <- factor(data_frame$FetalState) # to convert outcome variable from int to catogorical
+
+str(data_frame) # to confirm the change in FetalState
+
+is.na.data.frame(data_frame) # to check for null values
+
+# hostogram plotting and summary of each column
+
+hist(data_frame$BeatsRate, col = 'Violet')
+summary(data_frame$BeatsRate)
+
+hist(data_frame$AccelerationNo, col = 'Blue') 
+summary(data_frame$AccelerationNo)
+
+hist(data_frame$FetalMovements, col = 'Green') # Doubt
+summary(data_frame$FetalMovements)
+
+hist(data_frame$UterinContractions, col = 'Yellow')
+summary(data_frame$UterinContractions)
+
+hist(data_frame$AbnormalShortTermVariability, col = 'Orange')
+summary(data_frame$BeatsRate)
+
+hist(data_frame$HistogramMin, col = 'Red')
+summary(data_frame$HistogramMin)
+
+hist(data_frame$HistogramMax, col = 'Pink')
+summary(data_frame$HistogramMax)
+
+hist(data_frame$HistogramPeaks, col = 'Black')
+summary(data_frame$HistogramPeaks)
+
+hist(data_frame$HistogramZeros, col = 'Brown') # Doubt
+summary(data_frame$HistogramZeros)
+
+counts <- table(data_frame$FetalState)
+barplot(counts, main = "Fetal States Distribution")
+
+
+#Deliverable 3
+
+#shuffling data - sample function does this
+n <- nrow(data_frame)
+shuffled_data_frame <- data_frame[sample(n),]
+View(shuffled_data_frame)
+
+
+#collinerity
+cor(shuffled_data_frame[,-10])
+View(shuffled_data_frame)
+pairs(shuffled_data_frame)
+
+
+#dividing data into train and test
+indexes = sample(1:nrow(shuffled_data_frame), size=0.2*nrow(shuffled_data_frame))
+
+test = shuffled_data_frame[indexes,]  #test data
+train = shuffled_data_frame[-indexes,]  #train data
+
+dim(test)  # gives 425 rows
+dim(train) #gives 1701 rows
+
+
+#Linear Discriminant Analysis (LDA)
+
+library(MASS)
+lda.fit=lda(FetalState~BeatsRate+AccelerationNo+FetalMovements+UterinContractions+AbnormalShortTermVariability+HistogramMax+HistogramPeaks,data=train)
+lda.fit
+
+plot(lda.fit)
+lda.pred=predict(lda.fit, test)
+names(lda.pred)
+lda.class=lda.pred$class
+
+table(lda.class,test[,10]) #confusion matrix
+mean(lda.class==test[,10])
+
+
+
+
+
+#Quadratic Discriminant Analysis
+qda.fit=qda(FetalState~BeatsRate+AccelerationNo+FetalMovements+UterinContractions+AbnormalShortTermVariability+HistogramMax+HistogramPeaks,data=train)
+qda.fit
+qda.class=predict(qda.fit,test)$class
+table(qda.class,test[,10])
+mean(qda.class==test[,10])
+
+
+# Multinomial Logistic Regression
+
+
+library(nnet)
+multimodel <- multinom(FetalState~., data = train)
+summary(multimodel)
+
+pm <- predict(multimodel, test, type = "probs")
+pm
+
+predicted_class <- predict(multimodel, test)
+
+table(predicted_class, test$FetalState)
+mean(predicted_class == test$FetalState)
+
+
+
+#K-nearest Neighbours (KNN)
+
+# Data Normalization
+fun_norm <- function(x) {((x - min(x))/(max(x) - min(x)))}
+data_norm <- as.data.frame(lapply(shuffled_data_frame[, -10], fun_norm))
+summary(data_norm)
+
+
+# Split data into train and test data
+data_train <- data_norm[1:1488, ]
+data_train
+data_test <- data_norm[1489:2126, ]
+data_test
+
+# Predict the value
+library(class)
+library(caret)
+data_pred <- knn(data_train, data_test, data_frame[1:1488, 10], k = 47) # KNN model
+summary(data_pred)
+table(data_pred, data_frame[1489:2126, 10]) # Actual Vs Predicted
+
+# Accuracy
+mean(data_pred == data_frame[1489:2126, 10])
+confusionMatrix(data_pred, data_frame[1489:2126, 10])
+
+#Resampling
+
+# Validation set approach
+library(MASS)
+attach(data_frame)
+d = 1:10
+set.seed(2)
+error = rep(0,10)
+train = sample(2126, 1063)
+for(i in d){
+  lda.fit = lda(FetalState~poly(BeatsRate+AccelerationNo+FetalMovements+UterinContractions+AbnormalShortTermVariability+HistogramMax+HistogramPeaks, i), data=data_frame, subset = train)
+  lda.pred=predict(lda.fit,data_frame$FetalState[-train])
+  lda.class=(lda.pred$class)
+  table(lda.class, data_frame$FetalState)
+  error[i] = mean(data_frame$FetalState != lda.class)
+}
+error
+plot(d, error, type = "b", col = "red", xlab = "Degree of Polynomial", ylab = "Error")
+
+#LDA LOOCV
+
+cv.accuracy=rep(0,10)
+cv.error=rep(0,10)
+
+for (i in d){
+  lda.fit_samp=lda(FetalState~poly(BeatsRate+AccelerationNo+FetalMovements+UterinContractions+AbnormalShortTermVariability+HistogramMax+HistogramPeaks, i), data=data_frame, CV=TRUE)
+  table(lda.fit_samp$class,data_frame[,9])
+  
+  cv.accuracy[i]=mean(lda.fit_samp$class==data_frame[,9])
+  cv.error[i]=mean(lda.fit_samp$class!=data_frame[,9])
+}
+
+cv.error
+plot(d, cv.error, type = "b", col = "green", xlab = "Degree of Polynomial", ylab = "Error")
+
+#bootstrap
+
+library(boot)
+library(MASS)
+boot.fn=function(data, index)
+  return(coef(lda(FetalState~BeatsRate+AccelerationNo+FetalMovements+UterinContractions+AbnormalShortTermVariability+HistogramMax+HistogramPeaks, data=data_frame, subset= index)))
+summary(data_frame)
+dim(data_frame)
+
+boot.fn(data_frame,20:1200)
+set.seed(1)
+
+#randomly selecting 1200 observations with replacement 
+boot.fn(data_frame,sample(1200,1200, replace=T))
+
+boot(data_frame,boot.fn,1000)
+
+lda.fit=lda(FetalState~BeatsRate+AccelerationNo+FetalMovements+UterinContractions+AbnormalShortTermVariability+HistogramMax+HistogramPeaks , data= data_frame)
+lda.fit
+
+# 10 fold cross validation
+levels(data_frame$FetalState)
+levels(data_frame$FetalState)[1]="Normal"
+levels(data_frame$FetalState)[2]="Suspect"
+levels(data_frame$FetalState)[3]="Pathologic"
+levels(data_frame$FetalState)
+
+library(caret)
+set.seed(1)
+model_10fold = list()
+cv10.error = rep(0,10)
+cv10.accuracy = rep(0,10)
+
+ControlParameters = trainControl(method = "cv",
+                                 number = 10,
+                                 savePredictions = TRUE,
+                                 classProbs = TRUE
+                                 
+)
+
