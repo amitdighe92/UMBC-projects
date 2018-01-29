@@ -1,0 +1,1076 @@
+Drop and insert statements:
+
+DROP TABLE Outage_House;
+DROP TABLE Payment_History;
+DROP TABLE Messages;
+DROP TABLE Services;
+DROP TABLE Outages;
+DROP TABLE Monthly_Bills;
+DROP TABLE Rates;
+DROP TABLE Accounts;
+DROP TABLE Houses;
+DROP TABLE Customers;
+
+CREATE TABLE Customers(
+cid INT, 
+cname VARCHAR(20), 
+mail_add VARCHAR(50),
+phone_num NUMBER, 
+email VARCHAR(30), 
+password VARCHAR(20), 
+PRIMARY KEY(cid)
+);	
+
+insert into Customers Values(1, 'Josh', '4731 Aldgate Arbutus, 21227', 1234567890, 'josh@gmail.com', 'josh1234');
+
+insert into Customers Values(2, 'Ellen', '1234 Drayton Ellicot, 12345', 2345678901, 'ellen@gmail.com', 'ellen2345');
+
+insert into Customers Values(3, 'Daniel', '3456 Courtney Ocean, 34567', 3456789012, 'dan@gmail.com', 'dan3456');
+
+insert into Customers Values(4, 'Nico', '4567 Belwood Catonsville, 45678', 4567890123, 'nico@gmail.com', 'nico4567');
+
+insert into Customers Values(5, 'Miranda', '5678 Eldon Arbutus, 21227', 5678901234, 'miranda@gmail.com', 'miranda5678');
+
+insert into Customers Values(6, 'Allen', '201 Highland Ave, 16801', 5679903251, 'Allen@gmail.com', 'Allen201');
+
+insert into Customers Values(7, 'Tijana', '130 Rudisil CT, 21244', 4109983340, 'Tijana@gmail.com', 'Tijana130');
+
+insert into Customers Values(8, 'Jake', '3150 College Court, 16801', 8148889765, 'Jake@gmail.com', 'Jake3150');
+
+insert into Customers Values(9, 'Hilda', '328 Allen Street, 16802', 8173334444, 'Hilda@gmail.com', 'Hilda328');
+
+insert into Customers Values(10, 'Albert', '824 Vairo Blvd, 16803', 9156663333, 'Albert@gmail.com', 'Albert824');
+
+CREATE TABLE Houses(
+hid INT, 
+address VARCHAR(25), 
+zipcode NUMBER, 
+city VARCHAR(20), 
+PRIMARY KEY(hid)
+);      
+    
+
+insert into Houses values(1, '206 Green Course Dr.', 21227, 'Halethorpe');
+	
+insert into Houses values(2, '45 Pike St', 21250, 'Catonsville');
+
+insert into Houses values(3, '320 Market St', 21842, 'Ocean_city');
+
+insert into Houses values(4, '77 Allen St', 21227, 'Halethorpe');
+
+insert into Houses values(5, '15 Oaklyn Dr', 21250, 'Catonsville');
+
+insert into Houses values(6, '33 Willamette Rd', 21227, 'Halethorpe');
+
+insert into Houses values(7, '450 Highland Ave', 21045, 'Columbia');
+
+insert into Houses values(8, '200 Parole St', 21401, 'Annapolis');
+
+insert into Houses values(9, '170 Lester St', 21133, 'Randallstown');
+
+insert into Houses values(10, '40 Alder Rd', 21402, 'Annapolis');
+
+CREATE TABLE Accounts(
+accno INT, 
+balance NUMBER, 
+hid INT, 
+startdt DATE, 
+enddt DATE, 	
+status VARCHAR(20), 
+cid INT,
+PRIMARY KEY(accno),
+FOREIGN KEY (hid) REFERENCES Houses(hid),
+FOREIGN KEY (cid) REFERENCES Customers(cid)
+);
+
+
+insert into Accounts values(1, 0, 2, date '1998-01-01', date '2016-07-10', 'Inactive', 6 );
+
+insert into Accounts values(2, 0, 1, date '2001-08-10', NULL, 'Active', 1 );
+
+insert into Accounts values(3, 60, 3, date '2001-10-01', date '2016-08-15', 'Active', 5 );
+
+insert into Accounts values(4, 20, 5, date '2005-07-11', NULL, 'Active', 3 );
+
+insert into Accounts values(5, 0, 4, date '2006-01-01', date '2010-01-01', 'Inactive', 8 );
+
+insert into Accounts values(6, 20, 4, date '2010-03-01', NULL, 'Active', 2 );
+
+insert into Accounts values(7, 15, 6, date '2015-05-01', NULL, 'Active', 4 );
+
+insert into Accounts values(8, 0, 8, date '2016-07-10', NULL, 'Active', 5);
+
+insert into Accounts values(9, 0, 2, date '2016-08-01', NULL, 'Active', 10);
+
+insert into Accounts values(10, 550, 10, date '2016-08-10', NULL, 'Active', 9);
+
+insert into Accounts values(11, 210, 3, date '2016-08-15', NULL, 'Active', 7);
+
+CREATE TABLE Rates(
+rid INT,
+elerate NUMBER,
+gasrate NUMBER,
+flatfee NUMBER,
+year NUMBER,
+month VARCHAR(20),
+PRIMARY KEY(rid)
+);
+	
+insert into Rates values(1, 2.5, 1.0, 20, 2016, 'January');
+	
+insert into Rates values(2, 2.5, 1.0, 20, 2016, 'February');
+
+insert into Rates values(3, 2.5, 2.0, 20, 2016, 'March');
+
+insert into Rates values(4, 1.5, 1.0, 20, 2016, 'April');
+
+insert into Rates values(5, 1.5, 1.5, 20, 2016, 'May');
+
+insert into Rates values(6, 1.5, 2.0, 20, 2016, 'June');
+	
+insert into Rates values(7, 2.0, 1.0, 20, 2016, 'July');
+
+insert into Rates values(8, 3.0, 2.0, 20, 2016, 'August');
+
+insert into Rates values(9, 1.5, 3.0, 20, 2016, 'September');
+
+insert into Rates values(10, 1.5, 4.0, 20, 2016, 'October');
+
+insert into Rates values(11, 1.0, 4.5, 20, 2016, 'November');
+
+insert into Rates values(12, 1.0, 4.5, 20, 2016, 'December');
+
+insert into rates values(13, 2, 3, 20, 2015, 'July');
+
+insert into rates values(14, 2.5, 3.4, 20, 2015, 'August');
+
+insert into rates values(15, 2.3, 2, 20, 2015, 'September');
+
+insert into rates values(16, 3, 3.2, 20, 2015, 'October');
+
+
+CREATE TABLE Monthly_Bills(
+mbid  INT,
+rid INT,
+accno INT, 
+bdate  DATE,
+eleusage NUMBER,
+gasusage NUMBER,
+previous_balance NUMBER,
+total_charge NUMBER, 	
+PRIMARY KEY(mbid), 
+FOREIGN KEY (accno) REFERENCES Accounts(accno),
+FOREIGN KEY (rid) REFERENCES Rates(rid));
+
+
+insert into Monthly_bills values(1, 7, 1, date '2016-07-01', 30, 20, 0, 80);
+	
+insert into Monthly_bills values(2, 7, 2, date '2016-07-01', 10, 5, 0, 25);
+
+insert into Monthly_bills values(3, 7, 3, date '2016-07-01', 50, 10, 100, 210);
+
+insert into Monthly_bills values(4, 7, 4, date '2016-07-01', 20, 50, 0, 90);
+
+insert into Monthly_bills values(5, 7, 6, date '2016-07-01', 25, 18, 0, 68);
+
+insert into Monthly_bills values(6, 7, 7, date '2016-07-01', 40, 20, 120, 220);
+
+insert into Monthly_bills values(7, 7, 8, date '2016-07-01', 50, 15, 30, 145);
+
+insert into monthly_bills values(8, 12, 2, date'2016-12-15', 30, 20, 200, 232.5);
+
+insert into monthly_bills values(9, 13, 2, date'2015-07-01', 20, 30, 0, 80);
+
+insert into monthly_bills values(10, 14, 2, date'2015-08-01', 30, 10, 0, 70);
+
+insert into monthly_bills values(11, 15, 2, date'2015-09-01', 10, 30, 0, 90);
+
+insert into monthly_bills values(12, 16, 2, date'2015-10-01', 20, 30, 0, 100);
+
+CREATE TABLE Outages(
+outid INT,
+starttime TIMESTAMP,
+endtime TIMESTAMP,
+status VARCHAR(20),
+zipcode NUMBER,
+PRIMARY KEY(outid));
+
+
+insert into Outages values(1000, timestamp '2010-10-01 10:30:20.13', timestamp '2010-10-01 14:10:20.13', 'Resolved', 21227);
+	
+insert into Outages values(1001, timestamp '2014-07-01 05:30:20.56', timestamp '2014-10-02 14:10:20.13', 'Resolved', 21842);
+
+insert into Outages values(1002, timestamp '2015-01-01 09:50:20.13', timestamp '2015-01-03 15:10:20.13', 'Resolved', 21227);
+
+insert into Outages values(1003, timestamp '2016-09-01 08:40:10.19', timestamp '2016-09-01 10:10:20.13', 'Resolved', 21250);
+
+insert into Outages values(1004, timestamp '2016-10-01 10:30:20.13', NULL, 'Active', 21045);
+        
+
+CREATE TABLE Services(
+tid INT,
+accno INT,
+problem_type VARCHAR(20),
+problem_desc VARCHAR(50),
+report_date DATE,
+status VARCHAR(20),
+service_charge NUMBER,
+comp_date   DATE,
+PRIMARY KEY(tid), 
+FOREIGN KEY (accno) REFERENCES Accounts(accno)
+);
+
+
+insert into Services values(100, 2, 'Tap Problem', 'Tap in the bathroom is not working', date'2015-10-09', 'Resolved', 20, date '2015-10-24');
+
+insert into Services values(101, 1, 'Exhaust Problem', 'Exhaust fan in the kitchen is not working', date'2015-12-08', 'Resolved', 10, NULL);
+
+insert into Services values(102, 4, 'Bugs Problem', 'There are lots of bugs in the furniture', date'2016-01-19', 'Resolved', 5, date '2014-06-16');
+
+insert into Services values(103, 3, 'Light Problem', 'Fan in the hall is not working', date'2016-05-09', 'Active', 50, NULL);
+
+insert into Services values(104, 5, 'AC Problem', 'AC is not working', date'2016-06-09', 'Resolved', 100, date '2010-01-10');
+
+
+
+
+CREATE TABLE Messages(
+mid INT,
+accno INT,
+mbody VARCHAR(150),
+mdate DATE,
+PRIMARY KEY(mid), 
+FOREIGN KEY (accno) REFERENCES Accounts(accno)
+);     	
+
+
+insert into Messages values(1, 10, 'a ticket is generated', date'2015-11-16');
+
+insert into Messages values(2, 2, 'end service request received', date'2016-02-05');
+
+insert into Messages values(3, 7, 'payment received with 120', date'2016-03-14');
+
+insert into Messages values(4, 3, 'the account is past due', date'2016-05-17');
+
+insert into Messages values(5, 5, 'a ticket is generated', date '2016-06-09');
+
+
+CREATE TABLE Payment_History(
+phid INT,
+accno INT,
+amount NUMBER,
+pay_method VARCHAR(20),
+pay_date DATE,
+PRIMARY KEY(phid), 
+FOREIGN KEY (accno) REFERENCES Accounts(accno));   
+
+
+insert into Payment_History values(300, 1, 80, 'Check', date'2016-07-07');
+
+insert into Payment_History values(301, 2, 25, 'Credit card', date'2016-07-11');
+
+insert into Payment_History values(302, 3, 150, 'Check', date'2016-07-10');
+
+insert into Payment_History values(303, 4, 70, 'Check', date'2016-07-10');
+
+insert into Payment_History values(304, 6, 48, 'Check', date'2015-07-05');
+
+insert into Payment_History values(305, 7, 205, 'Credit card', date'2016-07-11');
+
+insert into Payment_History values(306, 8, 145, 'Check', date'2016-07-10');
+
+
+
+CREATE TABLE Outage_House(
+outid int, 
+Hid int, 
+Primary key(outid,hid), 
+foreign key (outid) references Outages, 
+foreign key (hid) references Houses);
+	
+insert into Outage_House values(1000, 1);
+insert into Outage_House values(1000, 4);
+insert into Outage_House values(1001, 3);
+insert into Outage_House values(1002, 4);
+insert into Outage_House values(1002, 6);
+insert into Outage_House values(1002, 1);
+insert into Outage_House values(1003, 5);
+insert into Outage_House values(1003, 2);
+insert into Outage_House values(1004, 7);
+
+
+------------------------------------------
+------------------------------------------
+Dropping of sequence and creating new sequences:
+
+DROP SEQUENCE Messages_seq;
+DROP SEQUENCE Outage_seq;
+DROP SEQUENCE Service_seq;
+DROP SEQUENCE cid_seq;
+DROP SEQUENCE acc_seq;
+DROP SEQUENCE pay_seq;
+
+CREATE SEQUENCE Messages_seq START WITH  6;
+
+CREATE SEQUENCE Outage_seq START WITH  1004;
+
+CREATE SEQUENCE Service_seq START WITH  104;
+
+Create Sequence cid_seq START WITH 11;
+
+Create Sequence acc_seq START WITH 12;
+
+Create sequence pay_seq start with 307;
+
+
+Features:
+
+--Feature 1
+#Register a customer with the system. The customer needs to provide name, address, phone#, email, password. The procedure should check whether the email already exists in user table. If so, please print a message saying the customer exists. Otherwise create an account with input values and return a new customer ID. 
+
+set serveroutput on;
+
+create or replace procedure RegisterCustomer (n_name in varchar2, m_add in varchar2, p_num in number, e_email in varchar2, p_password in varchar2) IS
+
+Cursor c1 is select email from customers where email = e_email;
+
+v_e_email varchar2(50);
+
+Begin
+--cursor to check the user email in user table
+open c1;
+loop fetch c1 into v_e_email;
+exit when c1%notfound;
+End loop;
+if v_e_email is null then
+
+--create user account in user table
+insert into Customers Values(cid_seq.nextval, n_name, m_add, p_num, e_email, p_password);
+
+dbms_output.put_line('New user account was created successfully.');
+
+else
+--print message if the user name already in DB
+dbms_output.put_line('User name already exists. Please try a different one.');
+End if;
+END;
+
+
+--testing code:
+
+User Already Registered:
+exec registercustomer ('Josh', '4731 Aldgate Arbutus, 21227', 1234567890, 'josh@gmail.com', 'josh1234');
+
+New User:
+exec registercustomer ('Bhushan', '47311 Aldgate Arbutus, 21227', 2234567890, 'bhush@gmail.com', 'bhush1234');
+
+
+--Feature 2
+#Allow a customer to login by providing email and password. Please check whether email exists and password matches. If not, please print a message to indicate the error. Otherwise print a message to indicate user has logged on. The procedure should return a value 1 for success login and 0 for unsuccessful log in. 
+
+create or replace Function Login(c_email in CUSTOMERS.EMAIL%type, c_password in CUSTOMERS.PASSWORD%type)
+return number
+as	
+v_password customers.password%type;
+
+begin	
+
+--fetching password from customer table for provided email
+select password into v_password from Customers where email = c_email;
+
+--checking password
+if(v_password = c_password) then
+return 1;
+else
+return 0;
+end if;
+exception
+when no_data_found then
+return -1;
+end;
+
+Testing Code 1: -- for incorrect email
+
+declare
+v_login number;
+begin
+
+--providing email and password
+v_login := Login('bhush1@gmail.com','bhush');
+
+--login
+if(v_login = 1) then
+dbms_output.put_line('User has been logged on');
+
+--No login due to wrong password
+elsif(v_login = 0) then
+dbms_output.put_line('password and email are not matching');
+
+--if email does not exist
+else
+dbms_output.put_line('email does not exists');
+end if;
+end;	
+
+Testing code 2:-- Correct email
+declare
+v_login number;
+begin
+
+--providing email and password
+v_login := Login('josh@gmail.com','josh1234');
+
+--login
+if(v_login = 1) then
+dbms_output.put_line('User has been logged on');
+
+--No login due to wrong password
+elsif(v_login = 0) then
+dbms_output.put_line('password and email are not matching');
+
+--if email does not exist
+else
+dbms_output.put_line('email does not exists');
+end if;
+end;	
+
+
+--Feature 3
+# Allow a customer to read messages providing customer id and a starting date. Print out messages for that customer since that date. 
+
+create or replace procedure read_message(c_id in customers.cid%type, s_date in accounts.startdt%type)
+is	
+cursor c1 is select m.mbody 
+from customers c, accounts a, messages m
+where c.cid = a.cid and a.accno = m.accno and c.cid = c_id and a.startdt <= s_date; --cursor for message body
+v_body messages.mbody%type;
+
+begin		
+open c1;
+loop
+fetch c1 into v_body;
+exit when c1%notfound;
+dbms_output.put_line(v_body);
+end loop;
+if (v_body is null) then --checking conditions
+dbms_output.put_line('Wrong customer id or starting date');
+end if;
+close c1;
+end;
+
+Testing Code:
+
+exec read_message(1, date'2001-08-10'); -- correct input
+exec read_message(1, date'1992-08-10');-- wrong input
+
+
+--Feature 4
+# Allow a customer to start service on an address. The input includes a house ID, a start date, and customer ID. You need to create an account for the customer on the house if the customer does not have an account on that house earlier (otherwise the old account will be used). A flat connection fee will be also charged. Insert a message to message table stating service is scheduled to start on the start date and new account number. 
+
+create or replace Procedure Start_Service (h_id in Houses.hid%type,  st_date in Accounts.startdt%type, c_id in customers.cid%type)
+is
+Cursor c1 is select accno from Accounts --cursor for accounts
+where hid = h_id and cid = c_id;
+v_accno Accounts.accno%type;
+v_flatFee Accounts.balance%type:= 20;
+
+begin
+open c1;
+loop
+fetch c1 into v_accno;
+exit when c1%notfound;
+end loop;
+close c1;
+if v_accno is null then --testing conditions
+insert into Accounts values(acc_seq.nextval, v_flatFee, h_id, st_date, null, 'Active', c_id);
+insert into Messages values(messages_seq.nextval,acc_seq.currval, 'service is scheduled to start on the ' ||  st_date ||' on new account number: '|| acc_seq.currval, st_date);
+else
+dbms_output.put_line('Customer has already an account for this house');
+end if;
+end;
+
+
+Testing code:
+New User:
+exec registercustomer ('Bhushan', '47311 Aldgate Arbutus, 21227', 2234567890, 'bhush@gmail.com', 'bhush1234');
+
+exec Start_Service (2, sysdate, 11);-- for new account
+exec Start_Service (1, sysdate, 1); --existing account
+
+Proof:
+select * from messages;
+select * from accounts;
+
+
+--Feature 5
+# Allow a customer to end service on an address. The input includes an account ID and an end date. You need to record the end date in the account. A flat disconnection fee will be also charged to the account.  Note that you should set the account status to inactive in feature 6 (when the bill for the final month is generated). Please also insert a message to the message table stating end service request received. 
+
+CREATE OR REPLACE PROCEDURE end_Service(acc_no IN NUMBER, end_dt IN DATE)
+IS    
+v_discFees Accounts.balance%TYPE := 20;
+v_accno number;
+BEGIN
+Select accno into v_accno from Accounts where accno = acc_no;
+UPDATE Accounts
+SET enddt = end_dt, status = 'Inactive', balance = balance + v_discFees
+WHERE accno = acc_no;
+INSERT INTO Messages VALUES(msg_seq.nextval, acc_no, 'End service request received', end_dt);
+EXCEPTION
+WHEN NO_DATA_FOUND THEN
+DBMS_OUTPUT.PUT_LINE('The given input is incorrect');
+END;
+
+Execution Statement:
+exec end_Service (5, sysdate); --correct input
+exec end_Service (123, sysdate); --incorrect input
+
+Proof:
+select * from messages;
+select * from accounts;
+
+--Feature 6
+# Generate monthly bill for an account. The input includes: account number, year, month, electricity usage, gas usage, bill generation date. Please first compute the total charge for that month, then update the account balance to the new total charge, record the usage information, and print out customer’s name, address, account#, previous balance (before the update), electricity usage and charge, gas usage and charge, and total charge. Please also set a due date which is 15 days from the bill generation date. For example, if the bill is generated on April 2nd 2016 for March 2016’s charge, the due date is April 17th 2016. Insert a message into message table stating bill is ready. You need to consider the following cases:
+•	Normal case when the customer does not start or end service on this house in this month: total charge equals previous balance + electricity usage * unit charge for electricity + gas usage * gas unit charge + flat fee). 
+•	The customer just started service on this account in the given month, you need to prorate the bill if another customer ends service in the same month on the same house (e.g., when the first customer purchased the house from the second customer). For example, suppose a customer A starts service on a house on April 16th 2016, and another customer B ends service on the same house on April 15th 2016. Customer A will be responsible for 15/30 = 50% of electricity and gas usage and Customer B will be responsible for the rest. Please also set the account that ended service in that month to be inactive. 
+•	You can assume that when this feature is called, both the customer who starts and service and the customer who ends the service have entered their request. So if there is a start service request but no end service request, you can assume that the house has no service previously so the customer is still responsible for whole usage (normal case).
+•	The case for a customer who ends the service in that month is similar. If you can find another customer who starts service in that month on the same house, the first customer is only responsible for part of the usage (prorated by number of days). If there is no start service calls, the customer is responsible for all usage. 
+
+
+CREATE OR REPLACE PROCEDURE m_Bill(acc_no1 IN NUMBER, yr IN NUMBER, mnth IN VARCHAR2, ele_usage IN NUMBER, gas_usage IN NUMBER, b_date IN DATE) IS
+
+
+CURSOR C1 IS SELECT a.accno, a.balance, a.cid, a.hid, a.startdt, a.enddt, r.rid, r.elerate, r.gasrate, r.flatfee, c.cname, c.Mail_add 
+FROM Accounts a, rates r, customers c
+WHERE a.accno = acc_no1  AND c.cid = a.cid AND r.year = yr AND r.month = mnth;
+
+CURSOR C2 IS SELECT a2.accno, a2.cid, a2.startdt, a2.enddt
+FROM Accounts a1, Accounts a2
+WHERE a1.accno = acc_no1 AND a1.hid = a2.hid AND a2.accno <> a1.accno;-- AND EXTRACT(YEAR FROM a2.startdt) = yr AND EXTRACT(MONTH FROM a2.startdt) = mnth;
+
+
+Total_charge FLOAT;
+Due_date DATE;
+
+R1 C1%ROWTYPE; --variable to hold the row	
+R2 C2%ROWTYPE; --variable to hold the row
+
+no_of_days_used NUMBER;
+total_on_of_months NUMBER;
+Actual_usage FLOAT;
+
+BEGIN		
+  Due_date:=b_date + INTERVAL '15' DAY;
+  OPEN c1;	
+  LOOP	   
+    FETCH C1 INTO R1;
+
+
+    IF R1.accno IS NOT NULL THEN 
+       --DBMS_OUTPUT.PUT_LINE( 'Test1' || EXTRACT(MONTH FROM R1.startdt) ||',' || EXTRACT(MONTH FROM b_date));
+        IF  R1.enddt IS NOT NULL AND R1.enddt < b_date AND EXTRACT(MONTH FROM R1.enddt) <> EXTRACT(MONTH FROM b_date) THEN
+            DBMS_OUTPUT.PUT_LINE( 'This account became inactive before this bill date.');
+            EXIT;
+        
+        ELSIF EXTRACT(MONTH FROM R1.startdt) = EXTRACT(MONTH FROM b_date) OR EXTRACT(MONTH FROM R1.enddt) = EXTRACT(MONTH FROM b_date) THEN 
+            --DBMS_OUTPUT.PUT_LINE( 'Test2' || EXTRACT(MONTH FROM R1.enddt) ||' ,' || EXTRACT(MONTH FROM b_date));
+            OPEN C2;
+            LOOP
+            FETCH C2 INTO R2;
+
+                IF R2.accno IS NULL THEN 
+                    DBMS_OUTPUT.PUT_LINE( R1.cname || ' is responsible for the whole month.');
+                    DBMS_OUTPUT.PUT_LINE( R1.cname || '''s address is: ' || R1.mail_add);
+                    Total_charge:= R1.balance + ele_usage * R1.elerate + gas_usage * R1.gasrate + R1.flatfee;
+                    DBMS_OUTPUT.PUT_LINE('Gas usage: ' || gas_usage|| ', Gas charge: '|| gas_usage * R1.gasrate);
+                    DBMS_OUTPUT.PUT_LINE('Elec usage: ' || ele_usage|| ', Elec charge: '|| ele_usage * R1.elerate);
+                    DBMS_OUTPUT.PUT_LINE('Previous Balance: ' || R1.Balance || ', Total charge: '||Total_charge);
+                    INSERT INTO Messages VALUES(Messages_Seq.nextval, R1.accno, 'Your bill is ready.', b_date);
+                    INSERT INTO Monthly_bills VALUES(Monthly_bills_Seq.nextval, R1.rid, R1.accno, b_date, ele_usage, gas_usage, R1.balance, Total_charge);
+					UPDATE accounts SET balance = Total_charge WHERE accno = R1.accno;
+                    EXIT;
+					
+                ELSIF EXTRACT(MONTH FROM R2.startdt) = EXTRACT(MONTH FROM b_date) THEN 
+                    no_of_days_used := EXTRACT(DAY FROM (R1.enddt));
+                    total_on_of_months := EXTRACT(DAY FROM last_day(b_date));              
+                    Actual_usage := no_of_days_used / total_on_of_months;
+                    DBMS_OUTPUT.PUT_LINE( R1.cname || ' is responsible for the first ' || Actual_usage * 100 || '% usage of this month.');
+                    DBMS_OUTPUT.PUT_LINE( R1.cname || '''s address is: ' || R1.mail_add);
+                    Total_charge:= R1.balance + ele_usage * R1.elerate + gas_usage * R1.gasrate + R1.flatfee;
+                    DBMS_OUTPUT.PUT_LINE('Gas usage: ' || gas_usage|| ', Gas charge: '|| gas_usage * R1.gasrate);
+                    DBMS_OUTPUT.PUT_LINE('Elec usage: ' || ele_usage|| ', Elec charge: '|| ele_usage * R1.elerate);
+                    DBMS_OUTPUT.PUT_LINE('Previous Balance: ' || R1.Balance || ', Total charge: '||Total_charge);
+                    INSERT INTO Messages VALUES(Messages_Seq.nextval, R1.accno, 'Your bill is ready.', b_date);
+                    INSERT INTO Monthly_bills VALUES(Monthly_bills_Seq.nextval, R1.rid, R1.accno, b_date, ele_usage, gas_usage, R1.balance, Total_charge);
+					UPDATE accounts SET balance = Total_charge WHERE accno = R1.accno;
+                    EXIT;
+					
+                ELSIF EXTRACT(MONTH FROM R1.startdt) = EXTRACT(MONTH FROM b_date) THEN
+                    no_of_days_used := EXTRACT(DAY FROM (R2.enddt));
+                    total_on_of_months := EXTRACT(DAY FROM last_day(b_date)); 
+                    Actual_usage := 1-(no_of_days_used / total_on_of_months);
+                    DBMS_OUTPUT.PUT_LINE( R1.cname || ' is responsible for the second ' || Actual_usage * 100 || '% usage of this month.');
+                    DBMS_OUTPUT.PUT_LINE( R1.cname || '''s address is: ' || R1.mail_add);
+                    Total_charge:= R1.balance + ele_usage * R1.elerate + gas_usage * R1.gasrate + R1.flatfee;
+                    DBMS_OUTPUT.PUT_LINE('Gas usage: ' || gas_usage|| ', Gas charge: '|| gas_usage * R1.gasrate);
+                    DBMS_OUTPUT.PUT_LINE('Elec usage: ' || ele_usage|| ', Elec charge: '|| ele_usage * R1.elerate);
+                    DBMS_OUTPUT.PUT_LINE('Previous Balance: ' || R1.Balance || ', Total charge: '||Total_charge);
+                    INSERT INTO Messages VALUES(Messages_Seq.nextval, R1.accno, 'Your bill is ready.', b_date);
+                    INSERT INTO Monthly_bills VALUES(Monthly_bills_Seq.nextval, R1.rid, R1.accno, b_date, ele_usage, gas_usage, R1.balance, Total_charge);
+					UPDATE accounts SET balance = Total_charge WHERE accno = R1.accno;
+                    EXIT;
+					
+                ELSE
+                    DBMS_OUTPUT.PUT_LINE( R1.cname || ' is responsible for the whole month.');
+                    DBMS_OUTPUT.PUT_LINE( R1.cname || '''s address is: ' || R1.mail_add);
+                    Total_charge:= R1.balance + ele_usage * R1.elerate + gas_usage * R1.gasrate + R1.flatfee;
+                    DBMS_OUTPUT.PUT_LINE('Gas usage: ' || gas_usage|| ', Gas charge: '|| gas_usage * R1.gasrate);
+                    DBMS_OUTPUT.PUT_LINE('Elec usage: ' || ele_usage|| ', Elec charge: '|| ele_usage * R1.elerate);
+                    DBMS_OUTPUT.PUT_LINE('Previous Balance: ' || R1.Balance || ', Total charge: '||Total_charge);
+                    INSERT INTO Messages VALUES(Messages_Seq.nextval, R1.accno, 'Your bill is ready.', b_date);
+                    INSERT INTO Monthly_bills VALUES(Monthly_bills_Seq.nextval, R1.rid, R1.accno, b_date, ele_usage, gas_usage, R1.balance, Total_charge);
+					UPDATE accounts SET balance = Total_charge WHERE accno = R1.accno;
+                    EXIT;
+					
+                END IF;
+            EXIT;
+            END LOOP;
+            CLOSE c2;
+        ELSE
+            DBMS_OUTPUT.PUT_LINE( R1.cname || ' is responsible for the whole month.');
+            DBMS_OUTPUT.PUT_LINE( R1.cname || '''s address is: ' || R1.mail_add);
+            Total_charge:= R1.balance + ele_usage * R1.elerate + gas_usage * R1.gasrate + R1.flatfee;
+            DBMS_OUTPUT.PUT_LINE('Gas usage: ' || gas_usage|| ', Gas charge: '|| gas_usage * R1.gasrate);
+            DBMS_OUTPUT.PUT_LINE('Elec usage: ' || ele_usage|| ', Elec charge: '|| ele_usage * R1.elerate);
+            DBMS_OUTPUT.PUT_LINE('Previous Balance: ' || R1.Balance || ', Total charge: '||Total_charge);
+            INSERT INTO Messages VALUES(Messages_Seq.nextval, R1.accno, 'Your bill is ready.', b_date);
+            INSERT INTO Monthly_bills VALUES(Monthly_bills_Seq.nextval, R1.rid, R1.accno, b_date, ele_usage, gas_usage, R1.balance, Total_charge);
+			UPDATE accounts SET balance = Total_charge WHERE accno = R1.accno;
+            EXIT;
+			
+        END IF;
+        EXIT;
+    ELSE --R1.accno IS NULL THEN 
+        DBMS_OUTPUT.PUT_LINE( 'This account does not exist.');
+        EXIT;
+    END IF;
+
+  END LOOP;
+  CLOSE c1;	
+END;
+
+Execution statements:
+select * from monthly_bills;
+select * from rates;
+select * from accounts;
+select * from houses;
+select * from messages;
+
+exec m_bill(2, 2016, 'August', 40, 15, date'2016-08-01'); 
+select * from monthly_bills;
+select * from accounts;
+select * from messages;
+
+exec m_bill(3, 2016, 'August', 40, 15, date'2016-08-01'); 
+select * from monthly_bills;
+select * from accounts;
+select * from messages;
+
+exec m_bill(1, 2016, 'August', 40, 15, date'2016-08-01'); 
+select * from monthly_bills;
+select * from accounts;
+select * from messages;
+
+exec m_bill(9, 2016, 'August', 40, 15, date'2016-08-01'); 
+select * from monthly_bills;
+select * from accounts;
+select * from messages;
+
+--Feature 7
+# Allow a customer to pay a certain amount to an account. The input includes account ID, payment amount, payment method (credit card or check). Please generate a payment record in payment history table including account ID, payment amount, payment method, and payment date (current date). The balance of the account will be reduced by that amount. Please also insert a message into message table stating payment received and payment amount. 
+
+create or replace Procedure Pay_Amount (acc_no in number, pay_amt in number, pay_met in varchar)
+is
+begin
+insert into payment_history values(pay_seq.nextval, acc_no, pay_amt, pay_met, sysdate); --data insertion in Payment_History table
+update accounts
+set balance = balance - pay_amt
+where accno = acc_no; --updation of accounts table
+insert into Messages (mid, mbody) values(Messages_seq.nextval, 'The payment has been received'); --data insertion into Messages table
+Exception
+when no_data_found then
+dbms_output.put_line('The given input is invalid');
+End;
+
+Testing Code:
+
+Exec Pay_Amount(2, 100, ‘check’);-- correct input
+Exec Pay_Amount(16, 100, 'cash'); -- incorrect input
+
+Proof:
+Select * from Payment_History;
+Select * from Messages;
+
+--Feature 8
+# Check for past due account and charge a late fee. There is no input. The feature checks for each account and see whether the balance is still positive if the current date is after the due date of the most recent monthly bill. If so, the account is past due and a 5% late charge is added to the account balance. Please also insert a message into message table stating that the account is past due. 
+
+CREATE OR REPLACE PROCEDURE Late_Fee
+IS
+CURSOR c1 IS SELECT bdate, accno FROM Monthly_Bills WHERE previous_balance > 0; --Cursor to select billing date and account numbers in the monthly bills table
+
+v_bdate DATE;
+due_date DATE;
+v_accno NUMBER;
+
+BEGIN
+OPEN c1;
+LOOP
+FETCH c1 INTO v_bdate, v_accno;
+EXIT WHEN c1%notfound;
+due_date := v_bdate + 15;
+IF (SYSDATE > due_date) THEN
+UPDATE Accounts SET balance = balance + balance * 0.05 WHERE accno=v_accno; --Charge disconnection fee to the balance of of the given account number
+INSERT INTO messages VALUES(msg_seq.nextval, 2, 'Your account is past due', SYSDATE); --Data insertion into Message table
+END IF;    
+END LOOP;
+
+EXCEPTION
+WHEN NO_DATA_FOUND THEN
+DBMS_OUTPUT.PUT_LINE('No data found');
+CLOSE c1;
+END;
+
+Execution statement:
+EXEC Late_Fee;
+
+Proof:
+Select * from Accounts;
+Select * from Messages;
+
+--Feature 9
+# Allow a customer to report a service problem other than power outrage (which is handled in feature 11). The input includes account ID, problem description, and report date. Generate a ticket ID and insert a row into ticket table.  Set the status to be “in progress”. Insert a message to the message table stating a ticket is generated. 
+
+CREATE OR REPLACE PROCEDURE Service_Report (acc_no IN INTEGER, prob_type IN VARCHAR, prob_desc IN VARCHAR, rep_date IN DATE) IS
+
+accno_check INT;
+BEGIN
+SELECT accno INTO accno_check FROM  accounts WHERE accno = acc_no;
+
+INSERT INTO Services VALUES(Service_Seq.nextval, acc_no, prob_type, prob_desc, rep_date, 'In Progress', NULL, NULL);
+INSERT INTO Messages VALUES(Messages_Seq.nextval, acc_no, 'a ticket is generated', rep_date);
+DBMS_OUTPUT.PUT_LINE('The service request is reported and a you will get a message in your inbox, shortly.');
+
+EXCEPTION
+    WHEN no_data_found THEN
+   	 Dbms_output.put_line('Error: this account does not exist.');
+    
+END;
+
+Execution Statement:
+exec service_report(1, 'Window Door', ' The window door to the balcony is not moving.', date'2016-06-14'); -- Correct input
+
+
+--Feature 10
+# Mark a service problem being resolved. The input includes ticket ID, service charge, and service date. Please update the status to “resolved” and add the service charge to the account balance. Insert a message to the message table stating the ticket is resolved. 
+
+CREATE OR REPLACE PROCEDURE Service_Resolve (ticket_id IN INTEGER, serv_charge IN Number, resolve_date IN DATE) 
+IS
+Acc_No Accounts.accno%TYPE;
+Ticket_Check INT;
+Service_status services.status%TYPE;
+BEGIN
+
+	SELECT tid, accno, status INTO Ticket_Check, Acc_no, Service_status FROM services s WHERE  s.tid = ticket_id;
+  
+	IF Service_status = 'Resolved' THEN --- THIS IS TO CHECK IF THE TICKET HAS BEEN REPORTED AS RESOLVED PREVIOUSLY. SO IT WONT BE EXECUTED.
+		DBMS_OUTPUT.PUT_LINE('The service request has been reported as resolved previously. Please contact customer service.');
+	ELSE
+		UPDATE Services SET Status = 'Resolved', Service_Charge = serv_charge, comp_date = resolve_date WHERE tid = ticket_id;
+		UPDATE Accounts SET Balance = Balance + serv_charge WHERE accno = Acc_no;
+		INSERT INTO Messages VALUES(Messages_Seq.nextval, Acc_no, 'The ticket is resolved', resolve_date);
+		DBMS_OUTPUT.PUT_LINE('The service request is reported and a you will get a message in your inbox, shortly.');
+	END IF;
+EXCEPTION 
+	WHEN no_data_found THEN -- THIS IS FOR IF THE TICKET NUMBER IS INCORRECT. 
+		Dbms_output.put_line('Error: this ticket id is not correct. We do not have any service report associated with this number.');
+	WHEN too_many_rows THEN
+		Dbms_output.put_line('Your input is wrong.');
+END;
+
+Execution Statement:
+
+
+--Feature 11
+# Allow a customer to report an outrage. The input is house ID and date and time of the outrage. The system first checks whether there is an existing outrage reported in the same zip code and on the same date. If so it is not a new outrage and the feature simply adds the house ID to the list of house IDs of the outrage if it is not inserted yet. Otherwise, it is a new outrage so please generate a new outrage ID and record the information. A message will be inserted into message table stating that outrage report received. 
+
+CREATE OR REPLACE PROCEDURE Outage_Report (h_id IN INTEGER, rep_datetime IN TIMESTAMP) IS
+-- Cursor one holds all the information needed for a house and outage if it has been already reported.
+CURSOR C1 IS SELECT o.outid, o.starttime, o.status, o.zipcode, h.hid, a.accno 
+FROM OUTAGES o, houses h, accounts a
+WHERE o.zipcode = h.zipcode AND h.hid = h_id AND a.hid = h_id AND TO_DATE(CAST(o.starttime AS DATE)) = TO_DATE(CAST(rep_datetime AS DATE));
+-- The purpose of Cursor 2 is to check if this house has been already repoted for the same outage. Just an error handling.
+CURSOR C2 IS SELECT oh.outid FROM Outage_house oh WHERE oh.hid = h_id;
+R C1%rowtype; --variable to hold the row
+zip_code houses.zipcode%TYPE;
+Acc_No Accounts.accno%TYPE;
+rep_date DATE := TO_DATE(CAST(rep_datetime AS DATE)); -- This is to extract the date part of the reported timestamp
+oh_outid outages.outid%TYPE;
+
+BEGIN
+  SELECT zipcode INTO zip_code FROM houses h WHERE h.hid = h_id; -- This will hold the zipcode of the house reported.
+  SELECT accno INTO Acc_No FROM accounts a WHERE  a.hid = h_id AND a.enddt IS NULL; -- This will hold the account number associated with the house which is currently active.
+  OPEN C1;
+  LOOP
+	FETCH C1 INTO R; -- fetch
+	IF R.outid IS NOT NULL THEN
+	
+  	OPEN C2;
+  	LOOP
+    	FETCH C2 INTO oh_outid;
+    	EXIT WHEN C2%NOTFOUND;
+  	END LOOP;
+  	CLOSE C2;
+  	
+  	IF oh_outid = R.outid THEN -- To check if the house with the same outage has been reported.
+          	DBMS_OUTPUT.PUT_LINE('Error: this house has reported this outage before.');
+          	EXIT;
+  	END IF;
+  	
+  	INSERT INTO outage_house VALUES(R.outid, h_id);
+  	INSERT INTO Messages VALUES(Messages_Seq.nextval, R.accno, 'The outage has been reported.', rep_date);
+  	DBMS_OUTPUT.PUT_LINE('This outage has been reported already. You will get a message shortly.');
+  	EXIT;
+  	
+	ELSIF R.outid IS NULL THEN -- In case the outage has not been reported for that zipcode at the time.
+  	INSERT INTO outages VALUES(Outage_Seq.nextval, rep_datetime, Null, 'Active', zip_code);
+  	INSERT INTO outage_house VALUES(Outage_Seq.currval, h_id);
+  	INSERT INTO Messages VALUES(Messages_Seq.nextval, Acc_No, 'The outage has been reported.', rep_date);
+  	DBMS_OUTPUT.PUT_LINE('The outage has been reported. You will get ba message shortly.');
+  	EXIT;
+	END IF;
+  END LOOP;
+  CLOSE C1; -- close cursor
+/* This is in case the implicit cursor for holding associated accounts come back empty. This will happen for
+houses that have not any associated accounts for them. */
+EXCEPTION
+ WHEN no_data_found THEN
+  Dbms_output.put_line('Error: this house does not belong to any active acocunt in our system.');
+ WHEN too_many_rows THEN
+  Dbms_output.put_line('Too many rows');
+END;
+
+
+
+
+Execute statements:
+select * from outages;
+select * from outage_house;
+select * from accounts;
+select * from houses;
+select * from messages;
+exec outage_report(1, timestamp '2016-10-12 14:17:20.13');
+select * from outages;
+select * from outage_house;
+select * from accounts;
+select * from houses;
+select * from messages;
+exec outage_report(4, timestamp '2016-10-12 21:17:20.13');
+select * from outages;
+select * from outage_house;
+select * from accounts;
+select * from houses;
+select * from messages;
+exec outage_report(4, timestamp '2016-10-12 21:17:20.13');
+
+
+Feature 12
+# Allow the system to report that an outrage has been resolved. Update the outrage status to resolved, record the resolved time. Insert a message to the message table for each account involved stating that the outrage has been resolved. 
+
+CREATE OR REPLACE PROCEDURE Outage_Resolve (out_id IN INTEGER, resolve_date IN TIMESTAMP) IS
+CURSOR C1 IS SELECT accno FROM outage_house o, accounts a WHERE o.outid = out_id AND o.hid = a.hid;
+Acc_No Accounts.accno%TYPE;
+End_date DATE;
+Outage_Check INT;
+Outage_status outages.status%TYPE;
+
+BEGIN
+
+    SELECT outid, status INTO Outage_Check, Outage_status FROM outages o  WHERE  o.outid = out_id;
+    IF Outage_status = 'Resolved' THEN --- THIS IS TO CHECK IF THE OUTAGE HAS BEEN REPORTED AS RESOLVED PREVIOUSLY. SO IT WONT BE EXECUTED.
+   	 DBMS_OUTPUT.PUT_LINE('The outages request has been reported as resolved previously. Please contact customer service.');
+    ELSE
+    UPDATE Outages SET Status = 'Resolved', endtime = resolve_date WHERE outid = out_id;
+    end_date := CAST(resolve_date AS DATE);
+    OPEN C1; -- open cursor for inserting messages.
+    LOOP
+   	 FETCH C1 INTO Acc_No; -- fetch
+   	 EXIT WHEN C1%NOTFOUND;
+    INSERT INTO Messages VALUES(Messages_Seq.nextval, Acc_no, 'The Outage is resolved.', end_date);
+    END LOOP;
+    CLOSE C1; -- close cursor
+  END IF;
+EXCEPTION
+    WHEN no_data_found THEN --THIS IS FOR WHEN THE OUTAGE ID IS NOT CORRECT.
+   	 Dbms_output.put_line('Error: this outage does not exist.');
+    WHEN too_many_rows THEN
+   	 Dbms_output.put_line('Your input is wrong.');
+END;
+Execution Statement:
+exec Outage_Resolve (1004, sysdate); -- correct input
+select * from outages;
+
+exec Outage_Resolve (1000, sysdate); -- existing outage
+exec Outage_Resolve (1005, sysdate); -- incorrect input
+
+Feature 13
+# Compute for a given zip code, the average electricity usage and the average usage of the bottom 20% of houses. Do the same for gas usage as well. Hint: you need to sort the houses by usage and identify the first 20%.
+
+create or replace procedure Average_Usage (h_zipcode in number, yr in number, mnth in number)
+is     	
+avg_ele20_usage float;
+avg_gas20_usage float;
+avg_ele_usage float;
+avg_gas_usage float;
+        	                      	
+begin           	
+select avg(eleusage), round(avg(gasusage),2) into avg_ele_usage, avg_gas_usage
+from monthly_bills mb, accounts a, houses h
+where mb.accno = a.accno and a.hid = h.hid and h.zipcode = h_zipcode and extract (year from(mb.bdate)) = yr and extract(month from (mb.bdate))= mnth; --Cursor to select average usages of total houses
+                	
+if ( avg_ele_usage is null ) then
+dbms_output.put_line('The given input in invalid.');
+elsif (avg_gas_usage is null) then
+dbms_output.put_line('The given input in invalid.');
+else
+dbms_output.put_line('Average Electricity Usage= '|| avg_ele_usage||' Average Gas Usage= '|| avg_gas_usage);
+ 
+end if;
+        	
+SELECT avg(eleusage)into avg_ele20_usage
+FROM (
+select m.eleusage from accounts a,
+monthly_bills m,houses  h where a.HID=H.HID and a.accno = m.accno
+and H.ZIPCODE=h_zipcode
+and extract(year from m.bdate)= yr
+and extract(month from m.bdate)= mnth
+order by eleusage asc)
+WHERE rownum <= (Select ROUND((Count(*)*0.2),0) from monthly_bills)
+ORDER BY rownum DESC; -- Cursor for selecting average electricity usage for bottom 20%
+                                                                                      	
+if ( avg_ele20_usage is null) then
+dbms_output.put_line('The given input in invalid.');
+else
+dbms_output.put_line('Average electricity usage of bottom 20% houses is '|| avg_ele20_usage);
+end if;
+ 
+SELECT avg(gasusage)into avg_gas20_usage
+FROM (
+select m.gasusage from accounts a,
+monthly_bills m,houses  h where a.HID=H.HID and a.accno = m.accno
+and H.ZIPCODE=h_zipcode
+and extract(year from m.bdate)= yr
+and extract(month from m.bdate)= mnth
+order by eleusage asc)
+WHERE rownum <= (Select ROUND((Count(*)*0.2),0) from monthly_bills)
+ORDER BY rownum DESC; -- Cursor for selecting average gas usage for bottom 20%
+ 
+ 
+if ( avg_gas20_usage is null) then
+dbms_output.put_line('The given input in invalid.');
+else
+dbms_output.put_line('Average gas usage of bottom 20% houses is '|| avg_gas20_usage);
+end if;
+end;
+
+Execute statements: 
+exec Average_Usage(21227, 2016, 07);-- correct input
+exec Average_Usage(123, 2016, 09); -- incorrect input 
+
+Feature 14
+# Report outrage statistics. The input is a start time and end time. Report the number of outrages whose start time falls in the time period, the total number of houses affected, the average number of houses affected per outrage, the zip code with the most number of outrages, and the average duration of outrage (computed from the start time to the resolved time). 
+
+show errors;
+create or replace Procedure outage_statistics(st_time in Outages.starttime%type, end_time in Outages.endtime%type)
+is                                                                                                                                    	 
+v_no_of_outages number;
+v_total_no_of_houses number;
+v_zipcode number;
+v_avg_outage_time number;
+v_no_of_houses number;
+v1_no_of_outages number;                                                	 
+v_avg_no_of_houses_per_outage float;          	 
+begin                                                                                                                                              	 
+                                                                                                                             	 
+select count(outid) into v_no_of_outages
+from outages                                                                                                                     	 
+where starttime between st_time and end_time;
+if (v_no_of_outages = 0) then
+dbms_output.put_line('The given time stamp is invalid');
+else                                                                                                                                    	 
+dbms_output.put_line('No of outages in this timeline is '|| v_no_of_outages);
+end if;                                     	 
+ 
+select count(hid) into v_total_no_of_houses
+from outage_house;
+dbms_output.put_line('Total no of houses affected is '|| v_total_no_of_houses);
+ 
+select avg(extract( second from ENDTIME - STARTTIME) +
+    	extract ( minute from  ENDTIME - STARTTIME) * 60 +
+    	extract ( hour   from  ENDTIME - STARTTIME) * 3600) into v_avg_outage_time from Outages
+where  status = 'Resolved';
+    	dbms_output.put_line('Average duration of outage is '|| v_avg_outage_time);
+ 
+select zipcode into v_zipcode
+from Outages                                                                                                                    	 
+group by zipcode                                                                                                               	 
+having count(*) = (select max(count) from (select count(*) as count, zipcode from Outages
+group by zipcode));                                                                                                           	 
+dbms_output.put_line('Zipcode with maximum number of outages is : ' || v_zipcode);
+
+select count(hid) into v_no_of_houses from outage_house;
+select count( distinct outid) into v1_no_of_outages from outage_house;
+v_avg_no_of_houses_per_outage := v_no_of_houses/v1_no_of_outages;
+dbms_output.put_line('Average no of houses per outage is ' || v_avg_no_of_houses_per_outage);
+end;
+
+Execute statements:	     	    	
+exec outage_statistics (timestamp'2016-01-01 00:00:00.00', timestamp'2016-11-01 00:00:00.0'); --correct input
+exec outage_statistics (timestamp'2013-01-01 00:00:00.00', timestamp'2013-11-01 00:00:00.0'); --invalid input
+ 
+
+Feature 15
+# Do a comparative study for a customer. The input is the account number, the year and month. Report the electricity and gas usage of the customer for that month, the usage of the customer for the same month last year, and the average usage of all customers in the same zip code, the average usage of the bottom 20% of houses in the same zip code. You can call feature 13 to get the average usage and bottom 20% usage. 
+
+show errors;
+create or replace Procedure Comparison (acc_no in Accounts.accno%type, yr in number, mnth in number)
+is                                                                                            	
+v_eleusage number;
+v_gasusage number;
+v1_eleusage number;
+v1_gasusage number;
+v_zipcode number;
+begin 
+select zipcode into v_zipcode from houses h, accounts a
+where a.hid = h.hid and a.accno = acc_no;                                                                                     	
+select  eleusage, gasusage into v_eleusage, v_gasusage
+from accounts a, monthly_bills mb
+where a.accno = mb.accno and extract(year from (bdate)) = yr and extract(month from (bdate)) = mnth and a.accno = acc_no;
+dbms_output.put_line('Electricity and gas usage for the given customer is '|| v_eleusage || ' and ' ||v_gasusage);
+                                                                                               	
+select eleusage, gasusage into v1_eleusage, v1_gasusage
+from accounts a, monthly_bills mb
+where a.accno = mb.accno and extract(year from (bdate) ) = (yr -1) and extract(month from (bdate)) = mnth and a.accno = acc_no;
+dbms_output.put_line('Electricity and gas usage for the given customer number before 1 year is '|| v1_eleusage || ' and ' ||v1_gasusage);
+ 
+Average_Usage (v_zipcode, yr, mnth);
+ 
+Exception
+when no_data_found then
+dbms_output.put_line('The given input is incorrect');
+end;
+
+
+Testing:
+exec Comparison (2, 2016, 07);-- correct input
+exec Comparison (456, 2016, 09);-- invalid input   	
+
+
