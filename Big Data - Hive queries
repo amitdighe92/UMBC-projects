@@ -1,0 +1,50 @@
+
+#Rcode for loading dataset
+Dataset <- read.csv(file="D:/Big_Data/Final_Output.csv", header=TRUE, sep=",")
+summary(Dataset)
+
+
+#Checking Pearson Correlation
+library(Hmisc) 
+rcorr(Dataset, type="pearson")
+
+#Visualizing Correlation
+library(corrplot)
+corrplot(Dataset, method="number")
+
+
+
+#Code for Hive
+
+
+DROP TABLE EDUCATION;
+DROP TABLE ECB_CITATIONS;
+
+
+CREATE TABLE EDUCATION(Neighborhoods string, Completion int, Dropout int, Total int, Year int, Lat decimal(4,2), Longi decimal(4,2))
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ','
+STORED AS TEXTFILE;
+
+LOAD DATA LOCAL INPATH '/home/adighe/Education.csv'
+OVERWRITE INTO TABLE EDUCATION;
+
+
+CREATE TABLE ECB_CITATIONS( CitationNo bigint, Agency varchar(500), FineAmount int, Description varchar(500), CitationStatus varchar(500), Year int, Neighborhoods string)
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ','
+LINES TERMINATED BY '\n'
+STORED AS TEXTFILE;
+
+LOAD DATA LOCAL INPATH '/home/adighe/ECB_Citations.csv'
+OVERWRITE INTO TABLE EDUCATION;
+
+SELECT round(avg(Completion), 0), round(avg(Dropout),0), round(avg(Total),0), count(CitationNo), Ed.Year, Ed.Neighborhoods, lat , longi FROM Education Ed, ECB_CITATIONS E where lower(Ed.Neighborhoods) = lower(E.Neighborhoods) and E.Year = Ed.Year  group by Ed.Year, Ed.Neighborhoods, lat, longi;
+This Hive query will return completion, dropout, total enrollment, citations, Year, neighborhoods and latitude and longitude from doing two tables Education and ECB_Citations. 
+
+INSERT OVERWRITE DIRECTORY '/user/adighe/hivefiles’ ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' SELECT round(avg(Completion), 0), round(avg(Dropout),0), round(avg(Total),0), count(CitationNo), Ed.Year, Ed.Neighborhoods, lat , longi FROM Education Ed, ECB_CITATIONS E where lower(Ed.Neighborhoods) = lower(E.Neighborhoods) and E.Year = Ed.Year  group by Ed.Year, Ed.Neighborhoods, lat, longi;
+
+hadoop fs -get /user/adighe/hivefiles/000000_0 /home/adighe
+
+
+
